@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using static CS_CarProject.Models.Carros;
 
 namespace CS_CarProject.Models
 {
-    public static class SistemaCarros
+    public class CarroRepositorio: ICarroInterface
     {
-        public static List<Carros> ObterCarros()
-        {
-            List<Carros> dados =
-                new List<Carros>();
+        private List<Carros> carros = new List<Carros>();
+        private int _nextId = 1;
 
-            dados.Add(new Carros()
+        public CarroRepositorio()
+        {
+            Add(new Carros
             {
+                id = 1,
                 Nome = "Volkswagen Saveiro",
                 Km = 18,
                 Cilindros = 8,
@@ -21,10 +21,10 @@ namespace CS_CarProject.Models
                 Aceleracao = 12,
                 Ano = "1978-01-02",
                 Origem = "USA"
-            });
-
-            dados.Add(new Carros()
-            {
+            });  
+            Add(new Carros
+            {   
+                id = 2,
                 Nome = "Volkswagen Gol",
                 Km = 19,
                 Cilindros = 7,
@@ -34,9 +34,9 @@ namespace CS_CarProject.Models
                 Ano = "1994-05-01",
                 Origem = "USA"
             });
-
-            dados.Add(new Carros()
+            Add(new Carros
             {
+                id = 3,
                 Nome = "Fiat Uno",
                 Km = 15,
                 Cilindros = 5,
@@ -46,9 +46,9 @@ namespace CS_CarProject.Models
                 Ano = "1984-01-02",
                 Origem = "BR"
             });
-
-            dados.Add(new Carros()
-            {
+            Add(new Carros 
+            {   
+                id = 4,
                 Nome = "Ford Ranger",
                 Km = 24,
                 Cilindros = 8,
@@ -58,9 +58,9 @@ namespace CS_CarProject.Models
                 Ano = "1995-01-02",
                 Origem = "CN"
             });
-
-            dados.Add(new Carros()
-            {
+            Add(new Carros 
+            {   
+                id = 5,
                 Nome = "Toyota Corolla",
                 Km = 19,
                 Cilindros = 10,
@@ -70,9 +70,9 @@ namespace CS_CarProject.Models
                 Ano = "1978-04-02",
                 Origem = "JP"
             });
-
-            dados.Add(new Carros()
+            Add(new Carros
             {
+                id = 6,
                 Nome = "Volkswagen Saveiro",
                 Km = 18,
                 Cilindros = 8,
@@ -82,9 +82,9 @@ namespace CS_CarProject.Models
                 Ano = "1978-01-02",
                 Origem = "USA"
             });
-
-            dados.Add(new Carros()
-            {
+            Add(new Carros
+            {   
+                id = 7,
                 Nome = "Honda Civic",
                 Km = 20,
                 Cilindros = 13,
@@ -95,46 +95,66 @@ namespace CS_CarProject.Models
                 Origem = "USA"
             });
 
-
-            return dados;
         }
 
-        public static List<Marca> ObterMarca()
+   
+
+        public IEnumerable<Carros> GetAll()
         {
-            List<Marca> dados =
-                new List<Marca>();
-
-        Add(new Marca()
+            return carros;
+        }
+        public Carros Get(int id)
+        {
+            return carros.Find(s => s.id == id);
+        }
+        public bool Add(Carros carros)
+        {
+            bool addResult = false;
+            if (carros == null)
             {
-                Nome = "Volkswagen",
-                Origem = "USA"
-            });
+                return addResult;
+            }
 
-         .Add(new Marca()
+            int index = carros.FindIndex(s => carros.id == carros.id);
+            if (index == -1)
             {
-                Nome = "Fiat",
-                Origem = "BR"
-            });
-
-          Add(new Marca()
+                carros.Add(carros);
+                addResult = true;
+                return addResult;
+            }
+            else
             {
-                Nome = "Ford",
-                Origem = "CN"
-            });
-
-           Add(new Marca()
+                return addResult;
+            }
+        }
+        public void Remove(int id)
+        {
+            carros.RemoveAll(s => s.id == id);
+        }
+        public bool Update(Carros carros)
+        {
+            if (carros == null)
             {
-                Nome = "Honda",
-                Origem = "USA"
-            });
-
-          Add(new Marca()
+                throw new ArgumentNullException("carros");
+            }
+            int index = carros.FindIndex(s => carros.id == carros.id);
+            if (index == -1)
             {
-                Nome = "Toyota",
-                Origem = "JP"
-            });
+                return false;
+            }
+            carros.RemoveAt(index);
+            carros.Add(carros);
+            return true;
+        }
 
-            return dados;
+        public Carros Get(string nome)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(string nome)
+        {
+            throw new NotImplementedException();
         }
     }
 }
